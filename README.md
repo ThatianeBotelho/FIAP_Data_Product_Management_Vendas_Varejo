@@ -1702,3 +1702,41 @@ O projeto estabelece:
 O `retail_sales` funciona como uma interface analítica entre as fontes operacionais e seus consumidores.
 
 A combinação entre **produto, contrato, qualidade, observabilidade e governança** permite tratar os dados não apenas como resultado de uma pipeline, mas como um produto com significado, responsabilidades e garantias explícitas.
+
+## Autoria
+
+Projeto desenvolvido em coautoria por:
+
+<table>
+  <tr>
+      <td align="center">
+      <img style="border-radius: 50%;" 
+           src="https://avatars.githubusercontent.com/ThatianeBotelho" 
+           width="100px;" 
+           alt="Thatiane Botelho"/>
+      <br/>
+      <b>Thatiane Botelho</b>
+      <br/>
+      <a href="https://github.com/ThatianeBotelho">GitHub</a>
+    </td>
+    <td align="center">
+      <img style="border-radius: 50%;" 
+           src="https://avatars.githubusercontent.com/tatiane-ss" 
+           width="100px;" 
+           alt="Tatiane Silva"/>
+      <br/>
+      <b>Tatiane Silva</b>
+      <br/>
+      <a href="https://github.com/tatiane-ss">GitHub</a>
+    </td>    
+    <td align="center">
+      <img style="border-radius: 50%;" 
+           src="https://avatars.githubusercontent.com/vivianecorrea" 
+           width="100px;" 
+           alt="Viviane Corrêa"/>
+      <br/>
+      <b>Viviane Corrêa</b>
+      <br/>
+      <a href="https://github.com/vivianecorrea">GitHub</a>
+  </tr>
+</table>

@@ -12,7 +12,7 @@ Projeto desenvolvido em coautoria por:
 
 <table>
   <tr>
-    <td align="center">
+      <td align="center">
       <img style="border-radius: 50%;" 
            src="https://avatars.githubusercontent.com/ThatianeBotelho" 
            width="100px;" 
@@ -22,7 +22,6 @@ Projeto desenvolvido em coautoria por:
       <br/>
       <a href="https://github.com/ThatianeBotelho">GitHub</a>
     </td>
-
     <td align="center">
       <img style="border-radius: 50%;" 
            src="https://avatars.githubusercontent.com/tatiane-ss" 
@@ -32,8 +31,7 @@ Projeto desenvolvido em coautoria por:
       <b>Tatiane Silva</b>
       <br/>
       <a href="https://github.com/tatiane-ss">GitHub</a>
-    </td>
-
+    </td>    
     <td align="center">
       <img style="border-radius: 50%;" 
            src="https://avatars.githubusercontent.com/vivianecorrea" 
@@ -43,17 +41,6 @@ Projeto desenvolvido em coautoria por:
       <b>Viviane Corrêa</b>
       <br/>
       <a href="https://github.com/vivianecorrea">GitHub</a>
-    </td>
-
-    <td align="center">
-      <img style="border-radius: 50%;" 
-           src="https://avatars.githubusercontent.com/alef-and" 
-           width="100px;" 
-           alt="Alef Anderson Silva"/>
-      <br/>
-      <b>Alef Anderson Silva</b>
-      <br/>
-      <a href="https://github.com/alef-and">GitHub</a>
     </td>
   </tr>
 </table>

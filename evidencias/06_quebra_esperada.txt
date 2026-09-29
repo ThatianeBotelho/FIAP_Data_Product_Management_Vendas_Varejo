@@ -1,0 +1,45 @@
+Testing datacontract_quebra.yaml
+Server: local (type=duckdb, database=data/analytics.duckdb)
+╭────────┬───────────────────────────────────────────────────────────────────────┬───────────────┬────────────────────────────────────────────────────╮
+│ Result │ Check                                                                 │ Field         │ Details                                            │
+├────────┼───────────────────────────────────────────────────────────────────────┼───────────────┼────────────────────────────────────────────────────┤
+│ failed │ Check that field order_status only contains enum values ['delivered'] │ order_status  │ Actual invalid_count(order_status) was 2229,       │
+│        │                                                                       │               │ expected = 0                                       │
+│ failed │ Check that field sales_amount has a minimum of 10000                  │ sales_amount  │ Actual invalid_count(sales_amount) was 102424,     │
+│        │                                                                       │               │ expected = 0                                       │
+│ failed │ Check that field 'sales_channel' is present                           │ sales_channel │ Required column 'sales_channel' is missing         │
+│ failed │ Check that field sales_channel has type string                        │ sales_channel │ Column 'sales_channel' is missing                  │
+│ failed │ Check that field sales_channel has no missing values                  │ sales_channel │ Column 'sales_channel' not found                   │
+│ passed │ Check that field 'customer_id' is present                             │ customer_id   │                                                    │
+│ passed │ Check that field customer_id has type string                          │ customer_id   │                                                    │
+│ passed │ Check that field customer_id has no missing values                    │ customer_id   │                                                    │
+│ passed │ Check that field 'order_id' is present                                │ order_id      │                                                    │
+│ passed │ Check that field order_id has type string                             │ order_id      │                                                    │
+│ passed │ Check that field order_id has no missing values                       │ order_id      │                                                    │
+│ passed │ Check that field 'order_status' is present                            │ order_status  │                                                    │
+│ passed │ Check that field order_status has type string                         │ order_status  │                                                    │
+│ passed │ Check that field order_status has no missing values                   │ order_status  │                                                    │
+│ passed │ Check that field 'product_id' is present                              │ product_id    │                                                    │
+│ passed │ Check that field product_id has type string                           │ product_id    │                                                    │
+│ passed │ Check that field product_id has no missing values                     │ product_id    │                                                    │
+│ passed │ Check that field 'quantity' is present                                │ quantity      │                                                    │
+│ passed │ Check that field quantity has type integer                            │ quantity      │                                                    │
+│ passed │ Check that field quantity has no missing values                       │ quantity      │                                                    │
+│ passed │ Check that field quantity has a minimum of 1                          │ quantity      │                                                    │
+│ passed │ Check that field 'sale_date' is present                               │ sale_date     │                                                    │
+│ passed │ Check that field sale_date has type date                              │ sale_date     │                                                    │
+│ passed │ Check that field sale_date has no missing values                      │ sale_date     │                                                    │
+│ passed │ Check that field 'sales_amount' is present                            │ sales_amount  │                                                    │
+│ passed │ Check that field sales_amount has type number                         │ sales_amount  │                                                    │
+│ passed │ Check that field sales_amount has no missing values                   │ sales_amount  │                                                    │
+│ passed │ Check that field 'sales_line_id' is present                           │ sales_line_id │                                                    │
+│ passed │ Check that field sales_line_id has type string                        │ sales_line_id │                                                    │
+│ passed │ Check that field sales_line_id has no missing values                  │ sales_line_id │                                                    │
+│ passed │ Check that unique field sales_line_id has no duplicate values         │ sales_line_id │                                                    │
+╰────────┴───────────────────────────────────────────────────────────────────────┴───────────────┴────────────────────────────────────────────────────╯
+🔴 data contract is invalid, found the following errors:
+1) sales_amount Check that field sales_amount has a minimum of 10000: Actual invalid_count(sales_amount) was 102424, expected = 0
+2) order_status Check that field order_status only contains enum values ['delivered']: Actual invalid_count(order_status) was 2229, expected = 0
+3) sales_channel Check that field 'sales_channel' is present: Required column 'sales_channel' is missing
+4) sales_channel Check that field sales_channel has type string: Column 'sales_channel' is missing
+5) sales_channel Check that field sales_channel has no missing values: Column 'sales_channel' not found

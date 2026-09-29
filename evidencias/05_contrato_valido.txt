@@ -1,0 +1,36 @@
+Testing datacontract.yaml
+Server: local (type=duckdb, database=data/analytics.duckdb)
+╭────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────┬───────────────┬─────────╮
+│ Result │ Check                                                                                                │ Field         │ Details │
+├────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────┼───────────────┼─────────┤
+│ passed │ Check that field 'customer_id' is present                                                            │ customer_id   │         │
+│ passed │ Check that field customer_id has type string                                                         │ customer_id   │         │
+│ passed │ Check that field customer_id has no missing values                                                   │ customer_id   │         │
+│ passed │ Check that field 'order_id' is present                                                               │ order_id      │         │
+│ passed │ Check that field order_id has type string                                                            │ order_id      │         │
+│ passed │ Check that field order_id has no missing values                                                      │ order_id      │         │
+│ passed │ Check that field 'order_status' is present                                                           │ order_status  │         │
+│ passed │ Check that field order_status has type string                                                        │ order_status  │         │
+│ passed │ Check that field order_status has no missing values                                                  │ order_status  │         │
+│ passed │ Check that field order_status only contains enum values ['approved', 'canceled', 'created',          │ order_status  │         │
+│        │ 'delivered', 'invoiced', 'processing', 'shipped', 'unavailable']                                     │               │         │
+│ passed │ Check that field 'product_id' is present                                                             │ product_id    │         │
+│ passed │ Check that field product_id has type string                                                          │ product_id    │         │
+│ passed │ Check that field product_id has no missing values                                                    │ product_id    │         │
+│ passed │ Check that field 'quantity' is present                                                               │ quantity      │         │
+│ passed │ Check that field quantity has type integer                                                           │ quantity      │         │
+│ passed │ Check that field quantity has no missing values                                                      │ quantity      │         │
+│ passed │ Check that field quantity has a minimum of 1                                                         │ quantity      │         │
+│ passed │ Check that field 'sale_date' is present                                                              │ sale_date     │         │
+│ passed │ Check that field sale_date has type date                                                             │ sale_date     │         │
+│ passed │ Check that field sale_date has no missing values                                                     │ sale_date     │         │
+│ passed │ Check that field 'sales_amount' is present                                                           │ sales_amount  │         │
+│ passed │ Check that field sales_amount has type number                                                        │ sales_amount  │         │
+│ passed │ Check that field sales_amount has no missing values                                                  │ sales_amount  │         │
+│ passed │ Check that field sales_amount has a minimum of 0.01                                                  │ sales_amount  │         │
+│ passed │ Check that field 'sales_line_id' is present                                                          │ sales_line_id │         │
+│ passed │ Check that field sales_line_id has type string                                                       │ sales_line_id │         │
+│ passed │ Check that field sales_line_id has no missing values                                                 │ sales_line_id │         │
+│ passed │ Check that unique field sales_line_id has no duplicate values                                        │ sales_line_id │         │
+╰────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────┴───────────────┴─────────╯
+🟢 data contract is valid. Run 28 checks. Took 0.786461 seconds.

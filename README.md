@@ -1703,7 +1703,9 @@ O `retail_sales` funciona como uma interface analítica entre as fontes operacio
 
 A combinação entre **produto, contrato, qualidade, observabilidade e governança** permite tratar os dados não apenas como resultado de uma pipeline, mas como um produto com significado, responsabilidades e garantias explícitas.
 
-## Autoria
+---
+
+# Autoria
 
 Projeto desenvolvido em coautoria por:
 

@@ -1,42 +1,31 @@
-# Data Product de Vendas de Varejo - Olist
+# Retail Sales Data Product - Olist
 
-Projeto desenvolvido para a disciplina **Data Product Management & Value Delivery**, seguindo a **Trilha 1 - Gestão e Governança**.
+Projeto da Trilha 1 - Gestão e Governança da disciplina **Data Product Management & Value Delivery**.
 
-A proposta foi construir um Data Product de vendas a partir do **Brazilian E-Commerce Public Dataset by Olist**, aplicando os conceitos trabalhados na disciplina: definição do produto, Data Product Canvas, contrato ODCS, validação automatizada, Data Downtime, Error Budget, catálogo, governança e níveis de serviço.
+A solução transforma dados públicos da Olist em um Data Product de vendas com interface definida, Data Contract, Quality Gates, Data Product Canvas, Data Product Catalog, Data Downtime, Error Budget e consumption Lineage.
 
 ---
 
-## 1. Autoria
-
-Projeto desenvolvido em coautoria por:
+## Autoria
 
 <table>
   <tr>
-      <td align="center">
-      <img style="border-radius: 50%;" 
-           src="https://avatars.githubusercontent.com/ThatianeBotelho" 
-           width="100px;" 
-           alt="Thatiane Botelho"/>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/ThatianeBotelho" width="100px;" alt="Thatiane Botelho"/>
       <br/>
       <b>Thatiane Botelho</b>
       <br/>
       <a href="https://github.com/ThatianeBotelho">GitHub</a>
     </td>
     <td align="center">
-      <img style="border-radius: 50%;" 
-           src="https://avatars.githubusercontent.com/tatiane-ss" 
-           width="100px;" 
-           alt="Tatiane Silva"/>
+      <img src="https://avatars.githubusercontent.com/tatiane-ss" width="100px;" alt="Tatiane Silva"/>
       <br/>
       <b>Tatiane Silva</b>
       <br/>
       <a href="https://github.com/tatiane-ss">GitHub</a>
-    </td>    
+    </td>
     <td align="center">
-      <img style="border-radius: 50%;" 
-           src="https://avatars.githubusercontent.com/vivianecorrea" 
-           width="100px;" 
-           alt="Viviane Corrêa"/>
+      <img src="https://avatars.githubusercontent.com/vivianecorrea" width="100px;" alt="Viviane Corrêa"/>
       <br/>
       <b>Viviane Corrêa</b>
       <br/>
@@ -47,207 +36,118 @@ Projeto desenvolvido em coautoria por:
 
 ---
 
-## 2. O que foi desenvolvido
+## 1. Visão geral
 
-O projeto cria o Data Product:
-
-**Nome de negócio:** Data Product de Vendas de Varejo  
+**Data Product:** Retail Sales  
 **Nome técnico:** `retail_sales`  
-**Domínio:** Varejo / Vendas  
+**Domínio:** Retail / Sales  
 **Versão:** 1.0.0  
+**Data Product Owner:** Sales Analytics
 
-O objetivo é disponibilizar uma visão única e governada das vendas, permitindo responder:
+O objetivo é disponibilizar uma visão única e governada das vendas para Sales Analytics, BI e Gestão, evitando que cada consumidor reconstrua joins, regras de agregação e definições de negócio por conta própria.
 
-- quando a venda ocorreu;
-- qual pedido originou a venda;
-- qual cliente realizou a compra;
-- qual produto foi vendido;
-- quantas unidades foram vendidas;
-- qual foi o valor dos itens;
-- qual é o status do pedido.
-
-O grão definido é:
+O grão é:
 
 > **Um Produto dentro de um Pedido.**
 
-Se o mesmo produto aparecer mais de uma vez dentro de um pedido, essas ocorrências são agrupadas em uma única linha.
+Quando o mesmo produto aparece mais de uma vez no mesmo pedido, as ocorrências são agrupadas em uma única linha e representadas por `quantity`.
 
-Exemplo:
+O Data Product responde, de forma consistente:
 
-```text
-Pedido 123 | Produto A | R$ 100
-Pedido 123 | Produto A | R$ 100
-Pedido 123 | Produto A | R$ 100
-```
+- quando o pedido foi realizado;
+- qual pedido originou a linha de venda;
+- qual cliente realizou a compra;
+- qual produto foi vendido;
+- quantas unidades foram vendidas;
+- qual o valor dos itens;
+- qual o status operacional do pedido.
 
-Resultado:
-
-```text
-Pedido 123 | Produto A | Quantidade 3 | Valor R$ 300
-```
+> `sales_amount` representa o valor dos itens do pedido, sem frete. Não deve ser interpretado automaticamente como receita reconhecida. O campo `order_status` permite que cada análise aplique o filtro adequado ao seu contexto.
 
 ---
 
-## 3. Cobertura da Trilha 1
+## 2. Cobertura da Trilha 1
 
 | Requisito | Implementação |
 |---|---|
-| Data Product Canvas | [`docs/canvas_produto_dados.md`](docs/canvas_produto_dados.md) |
-| Contrato ODCS | [`datacontract.yaml`](datacontract.yaml) |
-| Schema e regras de negócio | definidos no `datacontract.yaml` |
-| Validação automatizada | `datacontract-cli` conectado ao DuckDB |
-| Evidência da validação | [`evidencias/05_contrato_valido.txt`](evidencias/05_contrato_valido.txt) |
-| Simulação de Data Downtime | [`docs/simulacao_incidente.md`](docs/simulacao_incidente.md) |
-| Estimativa de impacto financeiro | documentada na simulação de incidente |
-| Error Budget | documentado na simulação e no catálogo |
-| Catálogo e governança | [`docs/catalogo.md`](docs/catalogo.md) |
-| Linhagem | documentada no catálogo |
-| SLA / SLO | documentados no catálogo |
-
-Também foi criado um contrato propositalmente incompatível para demonstrar a detecção de breaking changes:
-
-[`datacontract_quebra.yaml`](datacontract_quebra.yaml)
+| Data Product Canvas | [`docs/data_product_canvas.md`](docs/data_product_canvas.md) |
+| Data Contract ODCS | [`datacontract.yaml`](datacontract.yaml) |
+| Output schema e regras de negócio | definidos no Data Contract |
+| Quality Gate automatizado | `datacontract-cli` conectado ao DuckDB |
+| Evidência do contrato válido | [`evidencias/05_contrato_valido.txt`](evidencias/05_contrato_valido.txt) |
+| Breaking Change | [`datacontract_quebra.yaml`](datacontract_quebra.yaml) |
+| Evidência do bloqueio esperado | [`evidencias/06_quebra_esperada.txt`](evidencias/06_quebra_esperada.txt) |
+| Data Downtime + impacto financeiro | [`docs/data_downtime_incident.md`](docs/data_downtime_incident.md) |
+| Error Budget | Data Product Catalog e incident report |
+| Data Product Catalog | [`docs/data_product_catalog.md`](docs/data_product_catalog.md) |
+| Consumption Lineage | documentado no Data Product Catalog |
+| SLIs / SLOs / SLA | documentados no Data Product Catalog |
 
 ---
 
-## 4. Decisões do Projeto
+## 3. Decisões do produto
 
-Durante a definição do produto, algumas escolhas foram feitas para manter o escopo simples e alinhado ao problema de negócio.
+### Grão Order + Product
 
-### Grão Pedido + Produto
+O dataset de itens pode ter mais de uma ocorrência do mesmo produto dentro do mesmo pedido. Por isso, o produto consolida essas ocorrências no grão **Order + Product**.
 
-Escolhemos o grão Pedido + Produto porque o mesmo produto pode aparecer mais de uma vez dentro de um pedido.
+A chave técnica é:
 
-Essas ocorrências são agrupadas e representadas pela coluna `quantity`.
+```text
+sales_line_id = order_id + "-" + product_id
+```
 
----
+### Três Input Ports
 
-### Uso de três fontes
-
-O dataset Olist possui várias tabelas, mas para este produto utilizamos somente:
+A Olist disponibiliza várias tabelas, mas o escopo deste produto utiliza apenas:
 
 - Orders;
 - Order Items;
 - Customers.
 
-Essas três fontes são suficientes para responder às perguntas de negócio que definimos, sem aumentar o escopo desnecessariamente.
+Essas fontes são suficientes para responder às perguntas definidas para o produto sem incluir dados que não fazem parte do objetivo atual.
 
----
+### Sales Amount sem frete
 
-### Valor de vendas sem frete
-
-O campo:
-
-```text
-sales_amount
-```
-
-considera somente:
+`sales_amount` é calculado como:
 
 ```text
 SUM(item_price)
 ```
 
-O frete foi excluído porque o objetivo é representar o valor dos produtos vendidos e não o valor total pago pelo cliente.
-
----
+O frete foi mantido fora da métrica para separar valor dos itens de custos logísticos.
 
 ### Identificação do cliente
 
-Utilizamos:
-
-```text
-customer_unique_id
-```
-
-como `customer_id` no Data Product.
-
-A escolha permite identificar o mesmo cliente em pedidos diferentes utilizando o identificador anonimizado disponível na fonte.
-
----
+O `customer_unique_id` da Olist é exposto no produto como `customer_id`. Isso permite acompanhar o mesmo cliente em pedidos diferentes sem introduzir dados pessoais diretamente identificáveis.
 
 ### DuckDB
 
-O DuckDB foi escolhido como base analítica por ser simples de executar localmente e permitir a validação do Data Contract diretamente contra uma base de dados.
+O DuckDB funciona como Output Port SQL e também como base física usada pelo Quality Gate do Data Contract.
 
 ---
 
-### Escopo da Trilha 1
-
-Como o grupo escolheu a **Trilha 1 - Gestão e Governança**, priorizamos:
-
-- definição do produto;
-- semântica;
-- contratos;
-- qualidade;
-- governança;
-- níveis de serviço;
-- impacto para consumidores.
-
-A implementação de uma pipeline em dbt não faz parte do escopo escolhido.
-
----
-
-## 5. Schema do Data Product
-
-O `retail_sales` possui oito campos:
-
-| Campo | Tipo | Definição |
-|---|---|---|
-| `sales_line_id` | String | Identificador técnico único da combinação Pedido + Produto |
-| `sale_date` | Date | Data em que o pedido foi realizado |
-| `order_id` | String | Identificador do pedido |
-| `customer_id` | String | Identificador único e anonimizado do cliente |
-| `product_id` | String | Identificador do produto |
-| `quantity` | Integer | Quantidade daquele produto no pedido |
-| `sales_amount` | Decimal | Soma dos preços dos itens, sem frete |
-| `order_status` | String | Status operacional do pedido |
-
----
-
-## 6. Arquitetura
+## 4. Arquitetura
 
 ```mermaid
 flowchart LR
+    A[Olist Orders CSV] --> D[Build retail_sales]
+    B[Olist Order Items CSV] --> D
+    C[Olist Customers CSV] --> D
 
-A[Olist Orders] --> D[Transformação Retail Sales]
-B[Olist Order Items] --> D
-C[Olist Customers] --> D
+    D --> E[retail_sales.parquet]
+    E --> F[analytics.duckdb]
+    F --> G[retail_sales]
 
-D --> E[retail_sales.parquet]
-
-E --> F[analytics.duckdb]
-
-F --> G[retail_sales]
-
-G --> H[ODCS Data Contract]
-
-H --> I[Sales Analytics]
-H --> J[Business Intelligence]
-H --> K[Gestão]
-```
-
-Fluxo resumido:
-
-```text
-Fontes Olist
-    ↓
-Transformação
-    ↓
-retail_sales.parquet
-    ↓
-analytics.duckdb
-    ↓
-retail_sales
-    ↓
-Data Contract
-    ↓
-Consumidores
+    G --> H[ODCS Data Contract]
+    H --> I[Sales Analytics]
+    H --> J[Business Intelligence]
+    H --> K[Management]
 ```
 
 ---
 
-## 7. Estrutura do Repositório
+## 5. Estrutura do repositório
 
 ```text
 FIAP_Data_Product_Management_Vendas_Varejo/
@@ -258,9 +158,9 @@ FIAP_Data_Product_Management_Vendas_Varejo/
 │   └── 03_consultar_dados.py
 │
 ├── docs/
-│   ├── canvas_produto_dados.md
-│   ├── catalogo.md
-│   └── simulacao_incidente.md
+│   ├── data_product_canvas.md
+│   ├── data_product_catalog.md
+│   └── data_downtime_incident.md
 │
 ├── evidencias/
 │   ├── 01_construcao_retail_sales.txt
@@ -277,9 +177,7 @@ FIAP_Data_Product_Management_Vendas_Varejo/
 └── README.md
 ```
 
-A pasta `data/` não é versionada.
-
-Ela é criada durante a execução e contém:
+A pasta `data/` não é versionada. Ela é criada durante a execução:
 
 ```text
 data/
@@ -290,45 +188,29 @@ data/
 
 ---
 
-## 8. Pré-requisitos
+## 6. Pré-requisitos
 
-O projeto foi desenvolvido em **GitHub Codespaces**, mas também pode ser executado em um ambiente Python compatível.
+O projeto foi desenvolvido em GitHub Codespaces, mas pode ser executado em qualquer ambiente Python compatível.
 
-Instale as dependências:
+Instalação:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-O arquivo `requirements.txt` contém as principais bibliotecas utilizadas:
-
-```text
-duckdb
-datacontract-cli[duckdb]
-pandas
-pyarrow
-kaggle
-```
-
-Para confirmar o ambiente:
+Validação rápida do ambiente:
 
 ```bash
 python --version
-```
-
-```bash
 datacontract --version
-```
-
-```bash
 python -c "import duckdb; print(duckdb.__version__)"
 ```
 
 ---
 
-## 9. Dados de origem
+## 7. Dados de origem
 
-Utilizamos o **Brazilian E-Commerce Public Dataset by Olist**.
+Fonte: **Brazilian E-Commerce Public Dataset by Olist**.
 
 Crie a pasta:
 
@@ -336,13 +218,13 @@ Crie a pasta:
 mkdir -p data/raw
 ```
 
-O dataset pode ser obtido pela Kaggle CLI:
+Baixe o dataset com a Kaggle CLI:
 
 ```bash
 kaggle datasets download olistbr/brazilian-ecommerce -p data/raw --unzip
 ```
 
-Para este projeto são necessários:
+Arquivos usados:
 
 ```text
 data/raw/olist_orders_dataset.csv
@@ -350,97 +232,56 @@ data/raw/olist_order_items_dataset.csv
 data/raw/olist_customers_dataset.csv
 ```
 
-Os outros arquivos do dataset podem permanecer na pasta, mas não são utilizados.
-
 ---
 
-## 10. Como executar
+## 8. Execução
 
-### 10.1 Construir o Data Product
-
-Execute:
+### 8.1 Build do Data Product
 
 ```bash
 python src/01_preparar_olist.py
 ```
 
-Esse script:
-
-- lê as três fontes;
-- realiza os joins;
-- converte a data do pedido;
-- utiliza o identificador único do cliente;
-- agrega os registros no grão Pedido + Produto;
-- calcula `quantity`;
-- calcula `sales_amount`;
-- cria `sales_line_id`;
-- gera o Parquet final.
-
-Saída:
+O script lê os três Input Ports, realiza os joins, agrega no grão Order + Product e gera:
 
 ```text
 data/retail_sales.parquet
 ```
 
-Para salvar a evidência:
+Para registrar a execução:
 
 ```bash
 python src/01_preparar_olist.py 2>&1 | tee evidencias/01_construcao_retail_sales.txt
 ```
 
----
-
-### 10.2 Criar a base DuckDB
-
-Execute:
+### 8.2 Publicação no DuckDB
 
 ```bash
 python src/02_configurar_duckdb.py
 ```
 
-O script carrega:
-
-```text
-data/retail_sales.parquet
-```
-
-para:
+O script cria:
 
 ```text
 data/analytics.duckdb
+└── retail_sales
 ```
 
-criando a tabela:
-
-```text
-retail_sales
-```
-
-Para salvar a evidência:
+Evidência:
 
 ```bash
 python src/02_configurar_duckdb.py 2>&1 | tee evidencias/02_configuracao_duckdb.txt
 ```
 
----
-
-### 10.3 Consultar o Data Product
-
-Execute:
+### 8.3 Consulta do Output Port SQL
 
 ```bash
 python src/03_consultar_dados.py
 ```
 
-O script apresenta:
+O script mostra schema, KPIs, vendas por status, top produtos e uma amostra dos dados.
 
-- schema;
-- métricas gerais;
-- vendas por status;
-- produtos com maior valor de vendas;
-- amostra dos dados.
-
-Para salvar a evidência:
+Evidência:
 
 ```bash
 python src/03_consultar_dados.py 2>&1 | tee evidencias/03_consulta_analitica.txt
@@ -448,66 +289,58 @@ python src/03_consultar_dados.py 2>&1 | tee evidencias/03_consulta_analitica.txt
 
 ---
 
-## 11. Data Product Canvas
+## 9. Data Product Canvas
 
-O Canvas segue os blocos trabalhados na disciplina:
+O Data Product Canvas está em:
 
-1. Proposta de Valor e Objetivo de Negócio;
-2. Consumidores-Alvo e Casos de Uso;
-3. Fontes de Entrada e Fronteira do Domínio;
-4. Output Ports;
-5. Service Level Objectives;
-6. Governança de Dados e Papéis.
+[`docs/data_product_canvas.md`](docs/data_product_canvas.md)
 
-Documento:
+Ele segue os sete blocos usados como referência no projeto:
 
-[`docs/canvas_produto_dados.md`](docs/canvas_produto_dados.md)
+1. Value Proposition & Business Problem;
+2. Consumers & Use Cases;
+3. Output Ports;
+4. Input Ports & Source Lineage;
+5. SLOs & Quality Gates;
+6. Governance, Security & Privacy;
+7. Success Metrics & Product Value.
 
 ---
 
-## 12. Data Contract e Validação
+## 10. Data Contract e Quality Gate
 
 O contrato oficial está em:
 
 [`datacontract.yaml`](datacontract.yaml)
 
-Entre as regras definidas estão:
+Regras principais:
 
 ```text
-sales_line_id → obrigatório e único
-quantity      → >= 1
-sales_amount  → >= 0.01
-order_status  → domínio controlado
+sales_line_id -> required + unique
+quantity      -> minimum 1
+sales_amount  -> minimum 0.01
+order_status  -> controlled enum
 ```
 
-Os demais campos críticos também são obrigatórios.
-
-### Validar a estrutura do contrato
+Lint:
 
 ```bash
 datacontract lint datacontract.yaml
 ```
 
-Para registrar a evidência:
+Evidência:
 
 ```bash
 datacontract lint datacontract.yaml 2>&1 | tee evidencias/04_validacao_sintaxe_contrato.txt
 ```
 
----
-
-### Validar contra o DuckDB
+Teste contra o DuckDB:
 
 ```bash
 datacontract test datacontract.yaml
 ```
 
-Na execução realizada pelo grupo, o resultado foi:
-
-```text
-data contract is valid
-Run 28 checks
-```
+Na execução registrada, o contrato foi aprovado com **28 checks**.
 
 Evidência:
 
@@ -515,41 +348,25 @@ Evidência:
 
 ---
 
-## 13. Simulação de Breaking Change
+## 11. Breaking Change
 
-Além do contrato oficial, criamos:
+O arquivo:
 
 [`datacontract_quebra.yaml`](datacontract_quebra.yaml)
 
-Ele possui alterações propositalmente incompatíveis:
+introduz três mudanças incompatíveis de propósito:
 
-```text
-sales_amount >= 10000
-```
+- `sales_amount >= 10000`;
+- `order_status` restrito a `delivered`;
+- inclusão de `sales_channel` como campo obrigatório inexistente.
 
-```text
-order_status = apenas delivered
-```
-
-e uma nova coluna obrigatória inexistente:
-
-```text
-sales_channel
-```
-
-Execute:
+Execução:
 
 ```bash
 datacontract test datacontract_quebra.yaml
 ```
 
-Nesse caso, o resultado esperado é:
-
-```text
-FAIL
-```
-
-A falha é proposital e demonstra que alterações incompatíveis são identificadas pelo mecanismo de validação.
+O resultado esperado é **FAIL**. Nesse caso, a falha representa o comportamento correto do Quality Gate.
 
 Evidência:
 
@@ -557,192 +374,107 @@ Evidência:
 
 ---
 
-## 14. Evidências
+## 12. Data Downtime e Error Budget
 
-As principais execuções do projeto foram registradas:
+O incident scenario está documentado em:
 
-| Etapa | Resultado esperado | Evidência |
-|---|---|---|
-| Construção do Data Product | PASS | [`01_construcao_retail_sales.txt`](evidencias/01_construcao_retail_sales.txt) |
-| Configuração do DuckDB | PASS | [`02_configuracao_duckdb.txt`](evidencias/02_configuracao_duckdb.txt) |
-| Consulta Analítica | PASS | [`03_consulta_analitica.txt`](evidencias/03_consulta_analitica.txt) |
-| Validação de Sintaxe | PASS | [`04_validacao_sintaxe_contrato.txt`](evidencias/04_validacao_sintaxe_contrato.txt) |
-| Data Contract Oficial | PASS - 28 checks | [`05_contrato_valido.txt`](evidencias/05_contrato_valido.txt) |
-| Contrato de Quebra | FAIL esperado | [`06_quebra_esperada.txt`](evidencias/06_quebra_esperada.txt) |
+[`docs/data_downtime_incident.md`](docs/data_downtime_incident.md)
 
-Para recriar todas as evidências:
+O cenário considera uma alteração incompatível de `product_id` em um Input Port upstream.
 
-```bash
-python src/01_preparar_olist.py 2>&1 | tee evidencias/01_construcao_retail_sales.txt
+Resumo:
 
-python src/02_configurar_duckdb.py 2>&1 | tee evidencias/02_configuracao_duckdb.txt
+| Indicador | Resultado |
+|---|---:|
+| MTTD | 45 min |
+| MTTR | 3h15 |
+| Data Downtime | 4h |
+| Consumidores impactados | 12 |
+| Custo/hora assumido | R$ 150 |
+| Impacto estimado | R$ 7.200 |
+| Availability SLO | 99,5% |
+| Error Budget mensal | 3,6h |
+| Excesso | 24 min |
 
-python src/03_consultar_dados.py 2>&1 | tee evidencias/03_consulta_analitica.txt
-
-datacontract lint datacontract.yaml 2>&1 | tee evidencias/04_validacao_sintaxe_contrato.txt
-
-datacontract test datacontract.yaml 2>&1 | tee evidencias/05_contrato_valido.txt
-
-datacontract test datacontract_quebra.yaml 2>&1 | tee evidencias/06_quebra_esperada.txt
-```
-
-Estado esperado:
-
-```text
-01 - Construção do Data Product   → PASS
-02 - Configuração DuckDB          → PASS
-03 - Consulta Analítica           → PASS
-04 - Validação da Sintaxe         → PASS
-05 - Data Contract Oficial        → PASS / 28 checks
-06 - Contrato de Quebra           → FAIL esperado
-```
+Os valores de custo são premissas do incident scenario e servem para traduzir a indisponibilidade em impacto operacional.
 
 ---
 
-## 15. Simulação de Incidente
+## 13. Data Product Catalog e Lineage
 
-Para explorar o impacto de uma mudança upstream, simulamos a remoção ou alteração de:
+O catálogo está em:
 
-```text
-product_id
-```
+[`docs/data_product_catalog.md`](docs/data_product_catalog.md)
 
-Esse campo é essencial para definir o grão do produto.
+Ele reúne:
 
-O cenário considerado foi:
-
-```text
-product_id removido
-        ↓
-transformação falha
-        ↓
-retail_sales não é atualizado
-        ↓
-consumidores recebem dados desatualizados
-```
-
-Na simulação:
-
-```text
-MTTD = 45 minutos
-
-MTTR = 3h15
-
-Data Downtime = 4 horas
-```
-
-Também foram utilizadas premissas acadêmicas para estimar o impacto operacional:
-
-```text
-12 consumidores
-R$ 150/h
-4 horas
-```
-
-Resultado:
-
-```text
-R$ 7.200
-```
-
-O valor é apenas uma simulação e não representa informações reais da Olist.
-
-Com SLO de disponibilidade de 99,5%, o Error Budget mensal calculado é:
-
-```text
-3,6 horas
-```
-
-Como o incidente simulado durou 4 horas:
-
-```text
-4h > 3,6h
-```
-
-o Error Budget foi excedido em:
-
-```text
-24 minutos
-```
-
-Detalhes:
-
-[`docs/simulacao_incidente.md`](docs/simulacao_incidente.md)
-
----
-
-## 16. Catálogo e Governança
-
-A documentação completa do produto está em:
-
-[`docs/catalogo.md`](docs/catalogo.md)
-
-O catálogo reúne:
-
-- propósito;
-- grão;
+- propósito e escopo;
+- Grain;
 - Input Ports;
 - Output Ports;
-- dicionário de dados;
-- definições de negócio;
-- garantias de qualidade;
-- consumidores;
+- Data Dictionary;
+- Business Definitions;
+- Quality Guarantees;
+- Consumers;
 - SLIs;
 - SLOs;
 - SLA;
 - Error Budget;
-- governança;
-- linhagem.
+- Ownership e Governance;
+- Consumption Lineage;
+- Change Management.
 
-Principais metas simuladas:
+Principais metas:
 
-| Serviço | Meta |
+| Service Level | Target |
 |---|---:|
-| Freshness | ≤ 24 horas |
-| Disponibilidade | ≥ 99,5% mensal |
-| Qualidade crítica | 100% antes da publicação |
-| Comunicação de incidente | ≤ 1 hora após detecção |
-| Retenção | ≥ 365 dias |
+| Freshness | <= 24h |
+| Availability | >= 99,5% |
+| Critical Data Quality | 100% antes da publicação |
+| Incident Communication | <= 1h após detecção |
+| Retention | >= 365 dias |
 
 ---
 
-## 17. Limitações e Próximos Passos
+## 14. Evidências registradas
 
-A implementação foi construída para fins acadêmicos e possui algumas limitações.
+| Execução | Resultado |
+|---|---|
+| Build do Data Product | PASS |
+| Publicação no DuckDB | PASS |
+| Consulta analítica | PASS |
+| ODCS lint | PASS |
+| Data Contract | PASS / 28 checks |
+| Breaking Change | FAIL esperado |
 
-Atualmente:
+Para recriar as evidências:
 
-- a execução é local e manual;
-- não existe orquestração automática;
-- os SLIs não são monitorados continuamente;
-- SLA e impacto financeiro são simulados;
-- o catálogo é mantido dentro do próprio repositório;
-- a validação do Data Contract não está integrada a uma pipeline de CI/CD.
-
-Como evolução, a solução poderia incorporar:
-
-- automação de execução;
-- monitoramento contínuo de SLIs;
-- validação contratual em CI/CD;
-- alertas de falha;
-- catálogo corporativo;
-- gestão automatizada de versões do contrato.
+```bash
+python src/01_preparar_olist.py 2>&1 | tee evidencias/01_construcao_retail_sales.txt
+python src/02_configurar_duckdb.py 2>&1 | tee evidencias/02_configuracao_duckdb.txt
+python src/03_consultar_dados.py 2>&1 | tee evidencias/03_consulta_analitica.txt
+datacontract lint datacontract.yaml 2>&1 | tee evidencias/04_validacao_sintaxe_contrato.txt
+datacontract test datacontract.yaml 2>&1 | tee evidencias/05_contrato_valido.txt
+datacontract test datacontract_quebra.yaml 2>&1 | tee evidencias/06_quebra_esperada.txt
+```
 
 ---
 
-## 18. Conclusão
+## 15. Limitações e próximos passos
 
-O projeto partiu de dados operacionais de e-commerce e construiu um Data Product com uma interface analítica definida e governada.
+A implementação atual mantém o processamento local e intencionalmente simples. Alguns pontos podem evoluir em uma operação de produção:
 
-Mais do que gerar uma nova tabela, procuramos deixar explícitos:
+- scheduling e orchestration;
+- monitoramento contínuo dos SLIs;
+- execução do Quality Gate em CI/CD;
+- alerting;
+- integração com um Data Catalog corporativo;
+- versionamento e rollout automatizado de contratos.
 
-- o problema que o produto resolve;
-- quem são seus consumidores;
-- qual é o seu grão;
-- como suas métricas são calculadas;
-- quais regras precisam ser respeitadas;
-- quais níveis de serviço são esperados;
-- como mudanças incompatíveis podem ser identificadas;
-- qual pode ser o impacto de uma falha para o negócio.
+---
 
-O resultado é o `retail_sales`, acompanhado de contrato, documentação, validação e evidências que permitem reproduzir e avaliar a solução.
+## 16. Resultado
+
+O `retail_sales` deixa de ser apenas uma tabela derivada do dataset Olist e passa a ter uma interface de consumo clara: Grain, schema, Business Definitions, Quality Gates, ownership e Service Levels documentados.
+
+A combinação entre Data Product Canvas, Data Contract, Data Product Catalog, Breaking Change test e incident scenario permite avaliar não apenas se o pipeline roda, mas se o produto continua confiável para quem depende dele.

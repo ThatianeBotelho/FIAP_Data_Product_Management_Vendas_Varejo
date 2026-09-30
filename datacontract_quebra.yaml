@@ -1,172 +1,83 @@
 dataContractSpecification: 0.9.3
 
-id: urn:datacontract:olist:retail-sales:v1
+id: urn:datacontract:olist:retail-sales:v2-breaking
 
 info:
-
-  title: Data Product de Vendas de Varejo Olist
-
+  title: Retail Sales Data Product - Breaking Change Scenario
   version: 2.0.0
-
-  status: active
-
+  status: draft
   description: >
-    Data Product analítico governado que representa vendas
-    de varejo no grão Pedido + Produto. Cada linha representa
-    a venda de um produto específico dentro de um pedido.
-
-  owner: Time de Sales Analytics
-
-  contact:
-
-    name: Time do Data Product
-
-    email: data.product@example.com
-
+    Deliberately incompatible Data Contract used to validate the Quality Gate
+    against breaking schema and business-rule changes.
+  owner: Sales Analytics
 
 servers:
-
   local:
-
     type: duckdb
-
     database: data/analytics.duckdb
 
-    description: >
-      Banco analítico local DuckDB contendo
-      o Data Product retail_sales.
-
-
 models:
-
   retail_sales:
-
     description: >
-      Fato analítica de vendas no grão Pedido + Produto.
-
+      retail_sales with intentionally incompatible constraints.
     type: table
 
-
     fields:
-
-
       sales_line_id:
-
         type: string
-
         required: true
-
         unique: true
 
-        description: >
-          Identificador técnico único da combinação
-          Pedido + Produto.
-
-
       sale_date:
-
         type: date
-
         required: true
-
-        description: >
-          Data em que o cliente realizou o pedido.
-
 
       order_id:
-
         type: string
-
         required: true
-
-        description: >
-          Identificador do pedido associado à venda.
-
 
       customer_id:
-
         type: string
-
         required: true
-
-        description: >
-          Identificador anonimizado e único do cliente.
-
 
       product_id:
-
         type: string
-
         required: true
-
-        description: >
-          Identificador do produto vendido.
-
 
       quantity:
-
         type: integer
-
         required: true
-
         minimum: 1
 
-        description: >
-          Quantidade de unidades do produto dentro do pedido.
-
-
       sales_amount:
-
         type: number
-
         required: true
-
         minimum: 10000
-
         description: >
-          Valor monetário dos itens vendidos,
-          calculado pela soma dos preços dos itens.
-          O frete não está incluído.
-
+          Breaking Change: minimum threshold is intentionally incompatible
+          with the current retail_sales data.
 
       order_status:
-
         type: string
-
         required: true
-
         enum:
           - delivered
-
         description: >
-          Status operacional atual do pedido.
+          Breaking Change: allowed domain was restricted to delivered only.
 
       sales_channel:
-
         type: string
-
         required: true
-
         description: >
-          Campo obrigatório adicionado deliberadamente
-          para simular uma quebra incompatível de schema.
+          Breaking Change: new mandatory field added without backward compatibility.
 
 servicelevels:
-
   freshness:
-
     threshold: 24h
-
     description: >
-      No cenário operacional simulado,
-      o Data Product deve ser atualizado
-      em até 24 horas.
-
+      retail_sales must be refreshed within 24 hours of source availability.
 
   retention:
-
     period: 365d
-
     description: >
-      Os dados históricos devem permanecer
-      disponíveis por pelo menos 365 dias.
+      Analytical history must remain available for at least 365 days.

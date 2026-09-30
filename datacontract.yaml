@@ -3,140 +3,78 @@ dataContractSpecification: 0.9.3
 id: urn:datacontract:olist:retail-sales:v1
 
 info:
-
-  title: Data Product de Vendas de Varejo Olist
-
+  title: Retail Sales Data Product - Olist
   version: 1.0.0
-
   status: active
-
   description: >
-    Data Product analítico governado que representa vendas
-    de varejo no grão Pedido + Produto. Cada linha representa
-    a venda de um produto específico dentro de um pedido.
-
-  owner: Time de Sales Analytics
-
-  contact:
-
-    name: Time do Data Product
-
-    email: data.product@example.com
-
+    Governed analytical Data Product for retail sales at Order + Product grain.
+    Each row represents one product within one order.
+  owner: Sales Analytics
 
 servers:
-
   local:
-
     type: duckdb
-
     database: data/analytics.duckdb
-
     description: >
-      Banco analítico local DuckDB contendo
-      o Data Product retail_sales.
-
+      Local DuckDB analytical database serving the retail_sales table.
 
 models:
-
   retail_sales:
-
     description: >
-      Fato analítica de vendas no grão Pedido + Produto.
-
+      Retail sales fact table at Order + Product grain.
     type: table
 
-
     fields:
-
-
       sales_line_id:
-
         type: string
-
         required: true
-
         unique: true
-
         description: >
-          Identificador técnico único da combinação
-          Pedido + Produto.
-
+          Technical unique identifier built from order_id + product_id.
 
       sale_date:
-
         type: date
-
         required: true
-
         description: >
-          Data em que o cliente realizou o pedido.
-
+          Date when the customer placed the order.
 
       order_id:
-
         type: string
-
         required: true
-
         description: >
-          Identificador do pedido associado à venda.
-
+          Order identifier associated with the sales line.
 
       customer_id:
-
         type: string
-
         required: true
-
         description: >
-          Identificador anonimizado e único do cliente.
-
+          Anonymized unique customer identifier derived from customer_unique_id.
 
       product_id:
-
         type: string
-
         required: true
-
         description: >
-          Identificador do produto vendido.
-
+          Product identifier associated with the order.
 
       quantity:
-
         type: integer
-
         required: true
-
         minimum: 1
-
         description: >
-          Quantidade de unidades do produto dentro do pedido.
-
+          Number of units of the product within the order.
 
       sales_amount:
-
         type: number
-
         required: true
-
         minimum: 0.01
-
         description: >
-          Valor monetário dos itens vendidos,
-          calculado pela soma dos preços dos itens.
-          O frete não está incluído.
-
+          Monetary value of the ordered items, calculated as the sum of item prices.
+          Freight is not included.
 
       order_status:
-
         type: string
-
         required: true
-
         enum:
-
           - approved
           - canceled
           - created
@@ -145,27 +83,16 @@ models:
           - processing
           - shipped
           - unavailable
-
         description: >
-          Status operacional atual do pedido.
-
+          Current operational status of the order.
 
 servicelevels:
-
   freshness:
-
     threshold: 24h
-
     description: >
-      No cenário operacional simulado,
-      o Data Product deve ser atualizado
-      em até 24 horas.
-
+      retail_sales must be refreshed within 24 hours of source availability.
 
   retention:
-
     period: 365d
-
     description: >
-      Os dados históricos devem permanecer
-      disponíveis por pelo menos 365 dias.
+      Analytical history must remain available for at least 365 days.

@@ -1,41 +1,41 @@
 # Data Downtime Incident - Retail Sales
 
-## Incident Summary
+## Resumo do Incidente
 
-| Attribute | Value |
+| Atributo | Valor |
 |---|---|
 | Data Product | `retail_sales` |
 | Severity | High |
 | Status | Resolved |
-| Critical dependency | `product_id` |
-| Detection | 08:45 |
-| Recovery | 12:00 |
+| Dependência crítica | `product_id` |
+| Detecção | 08:45 |
+| Recuperação | 12:00 |
 | MTTD | 45 min |
 | MTTR | 3h15 |
 | Data Downtime | 4h |
 | Availability SLO | 99,5% |
-| Monthly Error Budget | 3,6h |
-| Budget status | Exceeded by 24 min |
+| Error Budget mensal | 3,6h |
+| Status do Error Budget | Excedido em 24 min |
 
 ---
 
-## 1. Scenario
+## 1. Cenário
 
 Uma mudança upstream remove ou renomeia `product_id` no Input Port de Order Items.
 
 Esse campo é crítico porque participa de:
 
-- Grain Order + Product;
+- grão Pedido + Produto;
 - `sales_line_id`;
 - agregação de `quantity`;
 - análise de produto;
-- consumption Lineage.
+- Consumption Lineage.
 
 Sem `product_id`, o build não consegue produzir uma nova versão válida de `retail_sales`.
 
 ---
 
-## 2. Technical Impact
+## 2. Impacto Técnico
 
 ```text
 product_id removed / renamed
@@ -55,7 +55,7 @@ A última versão válida pode continuar disponível, mas deixa de cumprir Fresh
 
 ---
 
-## 3. Impacted Consumers
+## 3. Consumidores Impactados
 
 ### Sales Analytics
 
@@ -67,7 +67,7 @@ A última versão válida pode continuar disponível, mas deixa de cumprir Fresh
 - dashboards continuam disponíveis, mas com dado stale;
 - refresh deixa de representar a operação corrente.
 
-### Management
+### Gestão
 
 - decisões passam a utilizar uma fotografia antiga do negócio.
 
@@ -117,7 +117,7 @@ Data Downtime = 4 horas
 
 ---
 
-## 8. Financial Impact
+## 8. Impacto Financeiro
 
 Para traduzir o incidente em impacto operacional, o cenário usa as seguintes premissas:
 
@@ -176,7 +176,7 @@ Logo:
 
 ---
 
-## 10. Governance Response
+## 10. Resposta de Governança
 
 Com o Error Budget excedido, a prioridade muda temporariamente de evolução funcional para confiabilidade.
 
@@ -192,7 +192,7 @@ Ações esperadas:
 
 ---
 
-## 11. Data Contract and Quality Gate
+## 11. Data Contract e Quality Gate
 
 O Data Contract exige `product_id` como campo obrigatório.
 
@@ -216,7 +216,7 @@ O mesmo princípio se aplica ao incidente de `product_id`: se a interface físic
 
 ---
 
-## 12. Incident Flow
+## 12. Fluxo do Incidente
 
 ```mermaid
 flowchart LR
@@ -234,7 +234,7 @@ flowchart LR
 
 ---
 
-## 13. Lineage and Blast Radius
+## 13. Lineage e Blast Radius
 
 ```mermaid
 flowchart LR
@@ -243,7 +243,7 @@ flowchart LR
     C --> D[analytics.duckdb / retail_sales]
     D --> E[Sales Analytics]
     D --> F[Business Intelligence]
-    D --> G[Management]
+    D --> G[Gestão]
 ```
 
 A alteração de `product_id` afeta o produto inteiro porque o campo participa do Grain e da chave técnica.
@@ -257,9 +257,9 @@ Blast Radius direto:
 
 ---
 
-## 14. Preventive Actions
+## 14. Ações Preventivas
 
-### Upstream Change Management
+### Gestão de Mudanças Upstream
 
 Campos críticos devem ter comunicação prévia antes de rename, remoção ou mudança de tipo.
 
@@ -274,19 +274,19 @@ order_status
 price
 ```
 
-### Contract Testing
+### Validação do Data Contract
 
 Executar o Data Contract antes de considerar uma nova versão pronta para consumo.
 
-### Freshness Monitoring
+### Monitoramento de Freshness
 
 Criar alerta quando a publicação esperada não ocorrer dentro da janela de 24 horas.
 
-### Error Budget Review
+### Revisão do Error Budget
 
 Todo incidente com impacto de Availability ou Freshness deve ser registrado e consumir o budget correspondente.
 
-### Root Cause Follow-up
+### Follow-up da Causa Raiz
 
 Incidentes High devem registrar:
 
@@ -296,12 +296,12 @@ Incidentes High devem registrar:
 - MTTR;
 - Data Downtime;
 - consumidores afetados;
-- corrective actions;
-- preventive actions.
+- ações corretivas;
+- ações preventivas.
 
 ---
 
-## 15. Final Assessment
+## 15. Conclusão
 
 O incidente mostra que um Breaking Change aparentemente pequeno em um Input Port pode interromper a atualização de todo o Data Product.
 

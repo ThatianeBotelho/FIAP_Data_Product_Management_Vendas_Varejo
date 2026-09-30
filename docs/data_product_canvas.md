@@ -1,25 +1,25 @@
 # Data Product Canvas - Retail Sales
 
 **Data Product:** Retail Sales  
-**Technical name:** `retail_sales`  
-**Domain:** Retail / Sales  
+**Nome técnico:** `retail_sales`  
+**Domínio:** Varejo / Vendas  
 **Version:** 1.0.0  
-**Lifecycle status:** Active  
+**Status:** Ativo  
 **Data Product Owner:** Sales Analytics
 
 ---
 
-## 1. Value Proposition & Business Problem
+## 1. Proposta de Valor e Problema de Negócio
 
-### Business Problem
+### Problema de Negócio
 
 Os dados necessários para análise de vendas estão distribuídos entre pedidos, itens e clientes. Quando cada consumidor precisa reconstruir essa integração, regras simples acabam sendo implementadas de maneiras diferentes e os números deixam de ser comparáveis.
 
 O problema principal não é falta de dado, e sim falta de uma interface analítica estável e compartilhada.
 
-### Value Proposition
+### Proposta de Valor
 
-O `retail_sales` entrega uma visão padronizada de vendas no grão **Order + Product**, com schema explícito, Business Definitions e Quality Gates.
+O `retail_sales` entrega uma visão padronizada de vendas no grão **Order + Product**, com schema explícito, definições de negócio e Quality Gates.
 
 O produto permite responder de forma consistente:
 
@@ -31,7 +31,7 @@ O produto permite responder de forma consistente:
 - qual o valor dos itens;
 - qual o status do pedido.
 
-### Grain
+### Grão
 
 > **Uma linha por Produto dentro de um Pedido.**
 
@@ -39,7 +39,7 @@ A combinação `order_id + product_id` identifica a linha lógica do produto. Qu
 
 ---
 
-## 2. Consumers & Use Cases
+## 2. Consumidores e Casos de Uso
 
 ### Sales Analytics
 
@@ -57,10 +57,10 @@ Principais usos:
 
 - dashboards;
 - relatórios gerenciais;
-- semantic models;
+- modelos semânticos;
 - métricas compartilhadas.
 
-### Management
+### Gestão
 
 Principais usos:
 
@@ -98,7 +98,7 @@ Uso principal:
 - inspeção de schema;
 - Data Contract testing.
 
-### Semantic Contract
+### Data Contract
 
 ```text
 datacontract.yaml
@@ -108,7 +108,7 @@ O Data Contract é a referência formal para schema, required fields, uniqueness
 
 ---
 
-## 4. Input Ports & Source Lineage
+## 4. Input Ports e Source Lineage
 
 O produto usa três arquivos do Brazilian E-Commerce Public Dataset by Olist.
 
@@ -159,7 +159,7 @@ flowchart LR
     E --> F[analytics.duckdb / retail_sales]
 ```
 
-### Domain Boundary
+### Limites do Domínio
 
 Incluído no escopo:
 
@@ -182,9 +182,9 @@ Fora do escopo atual:
 
 ---
 
-## 5. SLOs & Quality Gates
+## 5. SLOs e Quality Gates
 
-### Service Level Objectives
+### Service Levels
 
 | SLO | Target |
 |---|---:|
@@ -194,7 +194,7 @@ Fora do escopo atual:
 | Incident Communication | <= 1h após detecção |
 | Retention | >= 365 dias |
 
-### Critical Quality Gates
+### Quality Gates Críticos
 
 - `sales_line_id` deve ser obrigatório e único;
 - `sale_date`, `order_id`, `customer_id`, `product_id` e `order_status` são obrigatórios;
@@ -206,7 +206,7 @@ Uma versão que falha em uma regra crítica não deve ser considerada pronta par
 
 ---
 
-## 6. Governance, Security & Privacy
+## 6. Governança, Segurança e Privacidade
 
 ### Ownership
 
@@ -214,17 +214,17 @@ Uma versão que falha em uma regra crítica não deve ser considerada pronta par
 
 Responsabilidades:
 
-- manter Business Definitions;
+- manter definições de negócio;
 - aprovar mudanças de contrato;
 - acompanhar Service Levels;
 - coordenar comunicação com consumidores;
 - priorizar correções de confiabilidade.
 
-### Privacy
+### Privacidade
 
 O produto usa `customer_unique_id` como identificador analítico de cliente e não expõe nome, e-mail, documento ou dados de cartão.
 
-### Change Management
+### Gestão de Mudanças
 
 Mudanças backward compatible podem evoluir a versão minor.
 
@@ -252,7 +252,7 @@ São exemplos de Breaking Change:
 
 ---
 
-## 7. Success Metrics & Product Value
+## 7. Métricas de Sucesso e Valor do Produto
 
 O produto é considerado saudável quando:
 
@@ -261,7 +261,7 @@ O produto é considerado saudável quando:
 - Freshness permanece dentro de 24 horas;
 - Availability mensal permanece em pelo menos 99,5%;
 - Breaking Changes são detectados antes de chegar aos consumidores;
-- consumidores utilizam as Business Definitions do produto em vez de recriar regras paralelas.
+- consumidores utilizam as definições de negócio do produto em vez de recriar regras paralelas.
 
 O valor esperado está principalmente em três pontos:
 
@@ -269,4 +269,4 @@ O valor esperado está principalmente em três pontos:
 2. **reuso:** joins e regras deixam de ser reconstruídos a cada análise;
 3. **confiabilidade:** mudanças incompatíveis passam por Quality Gate antes da publicação.
 
-O impacto financeiro de falhas é tratado no incident scenario documentado em [`data_downtime_incident.md`](data_downtime_incident.md).
+O impacto financeiro de falhas é tratado no cenário de incidente documentado em [`data_downtime_incident.md`](data_downtime_incident.md).

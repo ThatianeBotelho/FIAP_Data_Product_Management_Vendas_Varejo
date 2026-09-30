@@ -1,20 +1,20 @@
 # Data Product Catalog - Retail Sales
 
-## Product Overview
+## Visão Geral do Data Product
 
-| Attribute | Value |
+| Atributo | Valor |
 |---|---|
 | Data Product | Retail Sales |
-| Technical name | `retail_sales` |
-| Domain | Retail / Sales |
+| Nome técnico | `retail_sales` |
+| Domínio | Varejo / Vendas |
 | Version | 1.0.0 |
-| Lifecycle status | Active |
+| Status | Ativo |
 | Data Product Owner | Sales Analytics |
 | Data Contract | `datacontract.yaml` |
 
 ---
 
-## 1. Purpose
+## 1. Propósito
 
 O `retail_sales` fornece uma interface analítica única para vendas da Olist, reduzindo a duplicação de joins e regras de negócio entre consumidores.
 
@@ -105,9 +105,9 @@ Interface formal do produto.
 
 ---
 
-## 5. Data Dictionary
+## 5. Dicionário de Dados
 
-| Field | Type | Required | Definition |
+| Campo | Tipo | Obrigatório | Definição |
 |---|---|---:|---|
 | `sales_line_id` | String | Sim | Chave técnica única de Order + Product |
 | `sale_date` | Date | Sim | Data em que o pedido foi realizado |
@@ -120,21 +120,21 @@ Interface formal do produto.
 
 ---
 
-## 6. Business Definitions
+## 6. Definições de Negócio
 
-### Sale Date
+### Data da Venda
 
 `sale_date` é derivado de `order_purchase_timestamp` e representa a data em que o pedido foi realizado.
 
-### Customer
+### Cliente
 
 `customer_id` no Data Product é derivado de `customer_unique_id`, permitindo reconhecer o mesmo cliente em pedidos distintos.
 
-### Quantity
+### Quantidade
 
 `quantity` é a contagem de ocorrências do mesmo `product_id` dentro do mesmo `order_id`.
 
-### Sales Amount
+### `sales_amount`
 
 ```text
 sales_amount = SUM(item_price)
@@ -144,7 +144,7 @@ Freight não faz parte da métrica.
 
 `sales_amount` representa valor dos itens do pedido. Não é, por si só, uma definição de receita reconhecida. Para análises de pedidos concluídos, o consumidor deve aplicar a regra apropriada sobre `order_status`.
 
-### Order Status
+### Status do Pedido
 
 Valores aceitos pelo Data Contract:
 
@@ -161,7 +161,7 @@ unavailable
 
 ---
 
-## 7. Quality Guarantees
+## 7. Garantias de Qualidade
 
 Antes da publicação, o produto deve respeitar:
 
@@ -181,7 +181,7 @@ Uma falha crítica bloqueia a versão até correção ou revisão formal do cont
 
 ---
 
-## 8. Consumers
+## 8. Consumidores
 
 ### Sales Analytics
 
@@ -191,7 +191,7 @@ Usa o produto para análises de vendas, clientes, produtos e status.
 
 Usa o Output Port SQL para dashboards, relatórios e semantic models.
 
-### Management
+### Gestão
 
 Consome indicadores consolidados derivados do produto para acompanhamento comercial.
 
@@ -199,7 +199,7 @@ Consome indicadores consolidados derivados do produto para acompanhamento comerc
 
 ## 9. SLIs
 
-| SLI | Measurement |
+| SLI | Medição |
 |---|---|
 | Freshness | tempo entre disponibilidade upstream e publicação do produto |
 | Availability | percentual da janela em que o produto está disponível e válido |
@@ -210,7 +210,7 @@ Consome indicadores consolidados derivados do produto para acompanhamento comerc
 
 ## 10. SLOs
 
-| SLO | Target |
+| SLO | Meta |
 |---|---:|
 | Freshness | <= 24h |
 | Availability | >= 99,5% mensal |
@@ -252,11 +252,11 @@ Portanto:
 
 > **Error Budget mensal: 3,6 horas**
 
-O incident scenario atual consome 4 horas e, por isso, excede o budget em 24 minutos.
+O cenário de incidente atual consome 4 horas e, por isso, excede o budget em 24 minutos.
 
 ---
 
-## 13. Ownership & Governance
+## 13. Ownership e Governança
 
 ### Data Product Owner
 
@@ -264,13 +264,13 @@ O incident scenario atual consome 4 horas e, por isso, excede o budget em 24 min
 
 Responsável por:
 
-- Business Definitions;
+- definições de negócio;
 - priorização do roadmap;
 - aprovação de mudanças;
 - comunicação com consumidores;
 - acompanhamento dos Service Levels.
 
-### Engineering
+### Engenharia
 
 Responsável por:
 
@@ -280,11 +280,11 @@ Responsável por:
 - correção de falhas técnicas;
 - manutenção dos scripts.
 
-### Consumers
+### Consumidores
 
 Responsáveis por:
 
-- usar o Grain e Business Definitions documentados;
+- usar o grão e as definições de negócio documentadas;
 - comunicar novos requisitos;
 - evitar redefinições locais sem alinhamento.
 
@@ -305,10 +305,10 @@ flowchart LR
     G --> H[ODCS Data Contract]
     H --> I[Sales Analytics]
     H --> J[Business Intelligence]
-    H --> K[Management]
+    H --> K[Gestão]
 ```
 
-### Reading the Lineage
+### Como ler o Lineage
 
 **Upstream**
 
@@ -334,13 +334,13 @@ flowchart LR
 
 - Sales Analytics;
 - Business Intelligence;
-- Management.
+- Gestão.
 
 O campo `product_id` é uma dependência crítica porque participa do Grain, da chave técnica, da agregação e de análises downstream.
 
 ---
 
-## 15. Change Management
+## 15. Gestão de Mudanças
 
 ### Backward-compatible changes
 
@@ -376,7 +376,7 @@ O arquivo `datacontract_quebra.yaml` mantém um cenário deliberadamente incompa
 
 ---
 
-## 16. Operational Notes
+## 16. Notas Operacionais
 
 A publicação atual é executada localmente. O desenho permite evolução para scheduling, CI/CD e monitoramento contínuo sem alterar a interface do produto.
 

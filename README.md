@@ -2,7 +2,7 @@
 
 Projeto da Trilha 1 - Gestão e Governança da disciplina **Data Product Management & Value Delivery**.
 
-A solução transforma dados públicos da Olist em um Data Product de vendas com interface definida, Data Contract, Quality Gates, Data Product Canvas, Data Product Catalog, Data Downtime, Error Budget e consumption Lineage.
+A solução transforma dados públicos da Olist em um Data Product de vendas com interface definida, Data Contract, Quality Gates, Data Product Canvas, Data Product Catalog, Data Downtime, Error Budget e Consumption Lineage.
 
 ---
 
@@ -40,7 +40,7 @@ A solução transforma dados públicos da Olist em um Data Product de vendas com
 
 **Data Product:** Retail Sales  
 **Nome técnico:** `retail_sales`  
-**Domínio:** Retail / Sales  
+**Domínio:** Varejo / Vendas  
 **Versão:** 1.0.0  
 **Data Product Owner:** Sales Analytics
 
@@ -87,9 +87,9 @@ O Data Product responde, de forma consistente:
 
 ## 3. Decisões do produto
 
-### Grão Order + Product
+### Grão Pedido + Produto
 
-O dataset de itens pode ter mais de uma ocorrência do mesmo produto dentro do mesmo pedido. Por isso, o produto consolida essas ocorrências no grão **Order + Product**.
+O dataset de itens pode ter mais de uma ocorrência do mesmo produto dentro do mesmo pedido. Por isso, o produto consolida essas ocorrências no grão **Pedido + Produto**.
 
 A chave técnica é:
 
@@ -107,7 +107,7 @@ A Olist disponibiliza várias tabelas, mas o escopo deste produto utiliza apenas
 
 Essas fontes são suficientes para responder às perguntas definidas para o produto sem incluir dados que não fazem parte do objetivo atual.
 
-### Sales Amount sem frete
+### `sales_amount` sem frete
 
 `sales_amount` é calculado como:
 
@@ -142,7 +142,7 @@ flowchart LR
     G --> H[ODCS Data Contract]
     H --> I[Sales Analytics]
     H --> J[Business Intelligence]
-    H --> K[Management]
+    H --> K[Gestão]
 ```
 
 ---
@@ -297,13 +297,13 @@ O Data Product Canvas está em:
 
 Ele segue os sete blocos usados como referência no projeto:
 
-1. Value Proposition & Business Problem;
-2. Consumers & Use Cases;
+1. Proposta de Valor e Problema de Negócio;
+2. Consumidores e Casos de Uso;
 3. Output Ports;
-4. Input Ports & Source Lineage;
-5. SLOs & Quality Gates;
-6. Governance, Security & Privacy;
-7. Success Metrics & Product Value.
+4. Input Ports e Source Lineage;
+5. SLOs e Quality Gates;
+6. Governança, Segurança e Privacidade;
+7. Métricas de Sucesso e Valor do Produto.
 
 ---
 
@@ -376,7 +376,7 @@ Evidência:
 
 ## 12. Data Downtime e Error Budget
 
-O incident scenario está documentado em:
+O cenário de incidente está documentado em:
 
 [`docs/data_downtime_incident.md`](docs/data_downtime_incident.md)
 
@@ -396,7 +396,7 @@ Resumo:
 | Error Budget mensal | 3,6h |
 | Excesso | 24 min |
 
-Os valores de custo são premissas do incident scenario e servem para traduzir a indisponibilidade em impacto operacional.
+Os valores de custo são premissas do cenário de incidente e servem para traduzir a indisponibilidade em impacto operacional.
 
 ---
 
@@ -412,17 +412,17 @@ Ele reúne:
 - Grain;
 - Input Ports;
 - Output Ports;
-- Data Dictionary;
-- Business Definitions;
-- Quality Guarantees;
-- Consumers;
+- Dicionário de Dados;
+- Definições de Negócio;
+- Garantias de Qualidade;
+- Consumidores;
 - SLIs;
 - SLOs;
 - SLA;
 - Error Budget;
-- Ownership e Governance;
+- Ownership e Governança;
 - Consumption Lineage;
-- Change Management.
+- Gestão de Mudanças.
 
 Principais metas:
 
@@ -464,7 +464,7 @@ datacontract test datacontract_quebra.yaml 2>&1 | tee evidencias/06_quebra_esper
 
 A implementação atual mantém o processamento local e intencionalmente simples. Alguns pontos podem evoluir em uma operação de produção:
 
-- scheduling e orchestration;
+- agendamento e orquestração;
 - monitoramento contínuo dos SLIs;
 - execução do Quality Gate em CI/CD;
 - alerting;
@@ -475,6 +475,6 @@ A implementação atual mantém o processamento local e intencionalmente simples
 
 ## 16. Resultado
 
-O `retail_sales` deixa de ser apenas uma tabela derivada do dataset Olist e passa a ter uma interface de consumo clara: Grain, schema, Business Definitions, Quality Gates, ownership e Service Levels documentados.
+O `retail_sales` deixa de ser apenas uma tabela derivada do dataset Olist e passa a ter uma interface de consumo clara: grão, schema, definições de negócio, Quality Gates, ownership e Service Levels documentados.
 
-A combinação entre Data Product Canvas, Data Contract, Data Product Catalog, Breaking Change test e incident scenario permite avaliar não apenas se o pipeline roda, mas se o produto continua confiável para quem depende dele.
+A combinação entre Data Product Canvas, Data Contract, Data Product Catalog, Breaking Change test e cenário de incidente permite avaliar não apenas se o pipeline roda, mas se o produto continua confiável para quem depende dele.
